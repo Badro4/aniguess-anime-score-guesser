@@ -140,7 +140,7 @@ export default function ImageButton({show, setShow}) {
         // Fetch all pages in parallel
         const responses = await Promise.all(
           pagesToFetch.map(page => 
-            fetch('https://graphql.anilist.co', {
+            fetch('/api', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
