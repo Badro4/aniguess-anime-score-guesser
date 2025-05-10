@@ -110,7 +110,8 @@ export default function ImageButton({show, setShow}) {
     let [gameResults, setGameResults] = useState('false');
     const [gameOver, setGameOver] = useState(false);
     const [prevScore, setPrevScore] = useState(0);
-
+    const isDev = import.meta.env.MODE === 'development';
+    const apiUrl = isDev ? '/api' : 'https://graphql.anilist.co'
 
     const fetchAnimes = async () => {
       setLoadingState(true);
@@ -140,7 +141,7 @@ export default function ImageButton({show, setShow}) {
         // Fetch all pages in parallel
         const responses = await Promise.all(
           pagesToFetch.map(page => 
-            fetch('/api', {
+            fetch(apiUrl, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
