@@ -1,6 +1,5 @@
 {
   "name": "anime-chooser",
-  "homepage": "https://badro4.github.io/aniguess-anime-score-guesser",
   "private": true,
   "version": "0.0.0",
   "type": "module",
