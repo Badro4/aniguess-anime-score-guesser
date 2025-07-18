@@ -21,9 +21,6 @@ const EndBox = styled(Box)(({ theme }) => ({
 function GameOverScreen({gameOver, setGameOver, score, setScore}) {
     return (
         <EndBox style={{display: gameOver ? '' : 'none'}}>
-            <div style={{display: 'flex', justifyContent: 'right', top: '50%', left: '18%', transform: 'translate(-50%, -50%)', position: 'absolute', zIndex: '-1'}}>
-                <img src="./umaruL.png" alt="game over" style={{height: '270px'}}></img>
-            </div>
             <div style={{display: 'flex', justifyContent: 'center', flexDirection:'column', alignItems: 'center'}}>
                 <h1>Game Over</h1>
                 <p>Final Score: {score}</p>
