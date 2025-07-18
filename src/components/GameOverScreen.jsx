@@ -19,6 +19,12 @@ const EndBox = styled(Box)(({ theme }) => ({
 
 
 function GameOverScreen({gameOver, setGameOver, score, setScore}) {
+    useEffect(() => {
+        if (gameOver) {
+            const audio = new Audio('/gameover.m4a');
+            audio.play().catch((e) => console.warn('Audio play failed:', e));
+        }
+    }, [gameOver]);
     return (
         <EndBox style={{display: gameOver ? '' : 'none'}}>
             <div style={{display: 'flex', justifyContent: 'center', flexDirection:'column', alignItems: 'center'}}>
