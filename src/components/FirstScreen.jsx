@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
+import { ToggleButtonGroup, ToggleButton } from '@mui/material';
+
 
 const StartBox = styled(Box)(({ theme }) => ({
   position: 'fixed',
@@ -9,7 +11,7 @@ const StartBox = styled(Box)(({ theme }) => ({
   left: '50%',
   transform: 'translate(-50%, -50%)',
   zIndex: '2147483640',
-  backgroundColor: 'rgba(19, 19, 26, 0.9)',
+  backgroundColor: 'rgba(23, 23, 32, 0.9)',
   padding: theme.spacing(4),
   width: '85%', 
   maxWidth: '500px', // Limits width on larger screens
@@ -45,14 +47,73 @@ const StartBox = styled(Box)(({ theme }) => ({
   }
 }))
 
-function FirstScreen({show, setShow}) {
-
+function FirstScreen({show, setShow, scoreRating, setScoreRating, setFavRating }) {
     return(
         <StartBox style={{display: show ? '' : 'none'}}>
-            <h1>Welcome to AniGuess!</h1>
-            <p>Test your skills in an interactive game where you'll be shown two anime and guess which one has a higher score.</p>
-            <p>To get started, simply click the "Play Now" button below.</p>
-            <br></br>
+            <h1>AniGuess!</h1>
+            <p><strong>Two anime. One winner. Can you guess which show is rated higher?.</strong></p>
+            
+            <ToggleButtonGroup
+            color="primary"
+            value={scoreRating ? 'score' : 'favs'}
+            exclusive
+            onChange={(e, newMode) => {
+              if (newMode === 'score') {
+                setScoreRating(true);
+                setFavRating(false);
+              } else if (newMode === 'favs') {
+                setScoreRating(false);
+                setFavRating(true);
+              }
+            }}
+            sx={{
+              alignSelf: 'center',
+              marginTop: 2,
+              backgroundColor: '#2c2c36',
+              borderRadius: '8px',
+              overflow: 'hidden',
+            }}
+          >
+            <ToggleButton 
+              value="score"
+              sx={{
+                color: 'white',
+                '&.Mui-selected': {
+                  backgroundColor: '#00a36c',
+                  color: 'white'
+                }
+              }}
+            >
+              ⭐ Score
+            </ToggleButton>
+            <ToggleButton 
+              value="favs"
+              sx={{
+                color: 'white',
+                '&.Mui-selected': {
+                  backgroundColor: '#d67f7fff',
+                  color: 'white'
+                }
+              }}
+            >
+              ❤️ Favs
+            </ToggleButton>
+          </ToggleButtonGroup>
+            <img 
+            src="/Plana_Portrait.png" 
+            alt="Plana" 
+            style={{
+            position: 'absolute',
+            bottom: '0',
+            left: '10%',
+            height: '100%',
+            zIndex: -2,               
+            opacity: 0.7,            
+            pointerEvents: 'none',   // Prevent interaction
+            userSelect: 'none',
+            objectFit: 'cover'
+            }}
+            />
             <button onClick={() => setShow(false)}>Play Now</button>
         </StartBox>
     )

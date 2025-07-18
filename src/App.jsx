@@ -9,12 +9,24 @@ import FirstScreen from './components/FirstScreen.jsx'
 
 function App() {
   const [show, setShow] = useState(true)
+  const [scoreRating, setScoreRating] = useState(true);
+  const [favRating, setFavRating] = useState(false);
 
   return (
     <>
-      <FirstScreen show={show} setShow={setShow}/>
-      <ImageButton show={show} setShow={setShow}/>
+      <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="video-background"
+      > 
+      <source src="/background2.mp4" type="video/mp4" />
+      </video>
+      <FirstScreen show={show} setShow={setShow} scoreRating={scoreRating} setScoreRating={setScoreRating} setFavRating={setFavRating}/>
+      <ImageButton show={show} setShow={setShow} scoreRating={scoreRating} favRating={favRating}/>
       <AudioPlayer/>
+      
     </>
   )
 }

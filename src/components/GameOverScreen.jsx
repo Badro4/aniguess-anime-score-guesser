@@ -22,6 +22,7 @@ function GameOverScreen({gameOver, setGameOver, score, setScore}) {
     useEffect(() => {
         if (gameOver) {
             const audio = new Audio('/gameover.m4a');
+            audio.volume = 0.03;
             audio.play().catch((e) => console.warn('Audio play failed:', e));
         }
     }, [gameOver]);

@@ -101,7 +101,7 @@ const ImageMarked = styled('span')(({ theme }) => ({
         transition: theme.transitions.create('opacity'),
       }));
 
-export default function ImageButton({show, setShow}) {
+export default function ImageButton({show, setShow, scoreRating, favRating}) {
     const [animes, setAnimes] = useState([]);
     const [currentPair, setCurrentPair] = useState([]);
     const [loadingState, setLoadingState] = useState(false);
@@ -110,6 +110,8 @@ export default function ImageButton({show, setShow}) {
     let [gameResults, setGameResults] = useState('false');
     const [gameOver, setGameOver] = useState(false);
     const [prevScore, setPrevScore] = useState(0);
+
+
     const isDev = import.meta.env.MODE === 'development';
     const apiUrl = isDev ? '/api' : 'https://graphql.anilist.co'
 
@@ -136,7 +138,7 @@ export default function ImageButton({show, setShow}) {
         `;
         
         // Array of pages to fetch
-        const pagesToFetch = [1, 2, 5, 10, 12, 15, 7, 20];
+        const pagesToFetch = [10, 12];
         
         // Fetch all pages in parallel
         const responses = await Promise.all(
@@ -185,16 +187,28 @@ export default function ImageButton({show, setShow}) {
     }
 
     const handleGuess = (clickedAnime) => {
+      const audio = new Audio('/dingdong.m4a');
+      audio.volume = 0.07;
       if (gameOver === true || show === true) return;
       if (gameResults === true) return;
-        // Find which anime has a higher score
-        const mostFavorited = currentPair[0].averageScore > currentPair[1].averageScore
-            ? currentPair[0] 
-            : currentPair[1];
+      
+      // Find which anime wins
+      let mostFavorited;
 
-        if (clickedAnime.id === mostFavorited.id) {
+      if (scoreRating === true) {
+        mostFavorited = currentPair[0].averageScore > currentPair[1].averageScore
+          ? currentPair[0]
+          : currentPair[1];
+      } else if (favRating === true) {
+        mostFavorited = currentPair[0].favourites > currentPair[1].favourites
+          ? currentPair[0]
+          : currentPair[1];
+      }
+      
+      if (clickedAnime.id === mostFavorited.id) {
             // Correct guess
             setScore(prev => prev + 1);
+            audio.play().catch((e) => console.warn('Audio play failed:', e));
             setGameStatus('win');
         } else {
             // Wrong guess
@@ -256,7 +270,10 @@ export default function ImageButton({show, setShow}) {
                             width: '100%',
                             textAlign: 'center',
                           }}>
-                             {anime.averageScore /10} ⭐
+                             {scoreRating 
+                                ? `${anime.averageScore / 10} ⭐`
+                                : `${anime.favourites} ❤️`
+                              }
                           </span>
                     )}
                     <ImageMarked className="MuiImageMarked-root" />

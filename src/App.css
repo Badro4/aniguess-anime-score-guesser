@@ -12,6 +12,26 @@ body {
 
 }
 
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+/* 👇 Hide video on small screens */
+@media (max-width: 768px) {
+  .video-background {
+    display: none;
+  }
+
+  body{
+    background-image: url("/use-svg-as-background-image-particle-strokes.svg");
+  }
+}
+
 #root {
   max-width: 100%;
   margin: 0 auto;
