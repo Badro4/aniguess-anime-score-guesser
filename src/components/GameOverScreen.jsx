@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Box } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 
 
@@ -18,23 +18,51 @@ const EndBox = styled(Box)(({ theme }) => ({
 }))
 
 
-function GameOverScreen({gameOver, setGameOver, score, setScore}) {
-    useEffect(() => {
-        if (gameOver) {
-            const audio = new Audio('/gameover.m4a');
-            audio.volume = 0.03;
-            audio.play().catch((e) => console.warn('Audio play failed:', e));
-        }
-    }, [gameOver]);
-    return (
-        <EndBox style={{display: gameOver ? '' : 'none'}}>
-            <div style={{display: 'flex', justifyContent: 'center', flexDirection:'column', alignItems: 'center'}}>
-                <h1>Game Over</h1>
-                <p>Final Score: {score}</p>
-                <button onClick={() => setGameOver(false)}>Play Again</button>
-            </div>
-        </EndBox>
-    );
+function GameOverScreen({ gameOver, setGameOver, score }) {
+  const audioRef = useRef(null);
+  const [playedOnce, setPlayedOnce] = useState(false);
+
+  useEffect(() => {
+    if (gameOver && !playedOnce) {
+      if (!audioRef.current) {
+        const audio = new Audio('/gameover2.m4a');
+        audio.volume = 0.1;
+        audioRef.current = audio;
+
+        audio.onended = () => {
+          setPlayedOnce(true);
+          audioRef.current = null;
+        };
+
+        audio.play().catch((e) => {
+          console.warn('Audio play failed:', e);
+        });
+      }
+    }
+  }, [gameOver, playedOnce]);
+
+  const handleRestart = () => {
+    setGameOver(false);
+    setPlayedOnce(false);
+
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+    }
+  };
+
+  return (
+    <EndBox style={{ display: gameOver ? '' : 'none' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+        <h1 style={{ textShadow: '0 2px 4px rgba(32, 18, 82, 1)' }}>Game Over</h1>
+        <p style={{ textShadow: '0 2px 4px rgba(32, 18, 82, 1)', fontWeight: 'bold' }}>
+          Final Score: {score}
+        </p>
+        <button onClick={handleRestart}>Play Again</button>
+      </div>
+    </EndBox>
+  );
 }
 
 export default GameOverScreen

@@ -50,9 +50,9 @@ const StartBox = styled(Box)(({ theme }) => ({
 function FirstScreen({show, setShow, scoreRating, setScoreRating, setFavRating }) {
     return(
         <StartBox style={{display: show ? '' : 'none'}}>
-            <h1>AniGuess!</h1>
-            <p><strong>Two anime. One winner. Can you guess which show is rated higher?.</strong></p>
-            
+            <h1 style={{textShadow: '6px 2px 4px rgba(32, 18, 82, 1)'}}>AniGuess!</h1>
+            <p style={{textShadow: '0 2px 4px rgba(32, 18, 82, 1)'}}><strong>Two anime. One winner. Can you guess which show is rated higher?.</strong></p>
+            <p style={{textShadow: '0 2px 4px rgba(32, 18, 82, 1)'}}><strong>Select the mode you want to play:</strong></p>
             <ToggleButtonGroup
             color="primary"
             value={scoreRating ? 'score' : 'favs'}

@@ -138,7 +138,7 @@ export default function ImageButton({show, setShow, scoreRating, favRating}) {
         `;
         
         // Array of pages to fetch
-        const pagesToFetch = [10, 12];
+        const pagesToFetch = [5, 8, 10, 12, 18, 20];
         
         // Fetch all pages in parallel
         const responses = await Promise.all(
@@ -188,7 +188,7 @@ export default function ImageButton({show, setShow, scoreRating, favRating}) {
 
     const handleGuess = (clickedAnime) => {
       const audio = new Audio('/dingdong.m4a');
-      audio.volume = 0.07;
+      audio.volume = 0.03;
       if (gameOver === true || show === true) return;
       if (gameResults === true) return;
       
